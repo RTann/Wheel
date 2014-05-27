@@ -16,8 +16,7 @@ import javax.swing.Timer;
  *
  * @author rosstannenbaum
  */
-public class Panel extends JPanel implements ActionListener,
-        MouseListener {
+public class Panel extends JPanel implements ActionListener, MouseListener {
 
     private Dimension screensize;
     private int height, width;
