@@ -18,7 +18,7 @@ public class Mechanics {
      */
     public static int getForce(long start, long end) {
         int force = (int) Math.ceil((end - start) / 100);
-        return force <= 0 ? 5 : force;
+        return force <= 1 ? 1 : force;
     }
 
     /**
