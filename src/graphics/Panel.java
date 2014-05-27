@@ -22,23 +22,23 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
     private static Dimension screensize;
     private static int height, width;
     private static JFrame jf;
-    private static Timer timer, delay;
+    private static Timer delay;
+    private static boolean ballIsMoving;
     private static int mouseX, mouseY;
     private static long pressedTime, releasedTime;
     private static int mass;
     private static int force;
-    private static double initialVelocity, currentVelocity;
-    private static int xInitialPosition, xPosition;
-    private static long time;
+    private static double prevVelocity, currentVelocity;
+    private static int xPrevPosition, xPosition;
+    private static long prevTime, time;
 
     public Panel() {
-        timer = new Timer(0, this);
         delay = new Timer(0, this);
         screensize = Toolkit.getDefaultToolkit().getScreenSize();
         height = screensize.height;
         width = screensize.width;
-        xInitialPosition = width / 2 - 200;
-        xPosition = xInitialPosition;
+        xPrevPosition = width / 2 - 200;
+        xPosition = xPrevPosition;
         setPreferredSize(screensize);
         setBackground(Color.BLACK);
         setFocusable(true);
@@ -55,10 +55,17 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        prevTime = time;
         time = System.currentTimeMillis() - releasedTime;
-        currentVelocity = Mechanics.getVelocity(initialVelocity, 0, time);
-        xPosition = Mechanics.getPosition(xInitialPosition, currentVelocity, 0, 
-                time);
+        prevVelocity = currentVelocity;
+        currentVelocity = Mechanics.getVelocity(prevVelocity, 0, 
+                time - prevTime);
+        xPrevPosition = xPosition;
+        xPosition = Mechanics.getPosition(xPrevPosition, currentVelocity, 0,
+                time - prevTime);
+        if (xPosition >= width) {
+            xPosition = -400;
+        }
         repaint();
     }
 
@@ -69,7 +76,7 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!timer.isRunning()) {
+        if (!ballIsMoving) {
             pressedTime = System.currentTimeMillis();
             mouseX = e.getX();
             mouseY = e.getY();
@@ -78,12 +85,12 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!timer.isRunning()) {
+        if (!ballIsMoving) {
             releasedTime = System.currentTimeMillis();
+            ballIsMoving = true;
             force = Mechanics.getForce(pressedTime, releasedTime);
-            initialVelocity = Mechanics.getVelocity(force, mass);
-            currentVelocity = initialVelocity;
-            timer.start();
+            prevVelocity = Mechanics.getVelocity(force, mass);
+            currentVelocity = prevVelocity;
             delay.start();
         }
     }
