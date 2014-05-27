@@ -8,8 +8,6 @@ public class Mechanics {
     
     /* Acceleration due to gravity on Earth */
     private static final double G = 9.81;
-    /* Coefficient of static friction */
-    private static final double MU = .5;
     
     /**
      * Computes force exerted onto Wheel
@@ -23,12 +21,14 @@ public class Mechanics {
     }
     
     /**
+     * Compute Force of Static Friction of Ground on Wheel
      * 
      * @param normal Normal force of Wheel on ground
      * @return Force of Static Friction
      */
     public int getFriction(long normal) {
-        return (int) (normal * MU);
+        //TODO
+        return 0;
     }
     
 }
