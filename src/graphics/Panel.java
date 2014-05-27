@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import physics.Mechanics;
 
 /**
  *
@@ -18,15 +19,16 @@ import javax.swing.Timer;
  */
 public class Panel extends JPanel implements ActionListener, MouseListener {
 
-    private Dimension screensize;
-    private int height, width;
+    private static Dimension screensize;
+    private static int height, width;
     private static JFrame jf;
     private static Timer time, delay;
     private static int mouseX, mouseY;
+    private static long pressedTime, releasedTime;
 
     public Panel() {
         time = new Timer(0, this);
-        delay = new Timer(1, this);
+        delay = new Timer(0, this);
         screensize = Toolkit.getDefaultToolkit().getScreenSize();
         height = screensize.height;
         width = screensize.width;
@@ -65,6 +67,7 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (!time.isRunning()) {
+            pressedTime = System.currentTimeMillis();
             mouseX = e.getX();
             mouseY = e.getY();
         }
@@ -73,8 +76,10 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (!time.isRunning()) {
+            releasedTime = System.currentTimeMillis();
             time.start();
             delay.start();
+            System.out.println(Mechanics.getForce(pressedTime, releasedTime));
         }
     }
 
