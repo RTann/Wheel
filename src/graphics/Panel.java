@@ -107,6 +107,7 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
         Panel p = new Panel();
         JFrame jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.add(p);
         jf.pack();
         jf.setVisible(true);
