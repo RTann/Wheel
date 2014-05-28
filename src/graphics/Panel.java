@@ -21,16 +21,15 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 
     private static Dimension screensize;
     private static int height, width;
-    private static JFrame jf;
     private static Timer delay;
     private static boolean ballIsMoving;
     private static int mouseX, mouseY;
     private static long pressedTime, releasedTime;
-    private static int mass;
+    private static int mass = 2;
     private static int force;
     private static double prevVelocity, currentVelocity;
     private static int xPrevPosition, xPosition;
-    private static long prevTime, time;
+    private static int deltaT = 1;
 
     public Panel() {
         delay = new Timer(0, this);
@@ -55,14 +54,11 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        prevTime = time;
-        time = System.currentTimeMillis() - releasedTime;
         prevVelocity = currentVelocity;
-        currentVelocity = Mechanics.getVelocity(prevVelocity, 0, 
-                time - prevTime);
+        currentVelocity = Mechanics.getVelocity(prevVelocity, 0, deltaT);
         xPrevPosition = xPosition;
         xPosition = Mechanics.getPosition(xPrevPosition, currentVelocity, 0,
-                time - prevTime);
+                deltaT);
         if (xPosition >= width) {
             xPosition = -400;
         }
@@ -106,9 +102,8 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
     }
 
     public static void main(String[] args) {
-        mass = 2;
         Panel p = new Panel();
-        jf = new JFrame();
+        JFrame jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.add(p);
         jf.pack();

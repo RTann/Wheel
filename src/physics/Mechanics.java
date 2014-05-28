@@ -43,13 +43,13 @@ public class Mechanics {
     }
 
     public static double getVelocity(double initialVelocity,
-            double acceleration, long time) {
+            double acceleration, int time) {
         return initialVelocity + acceleration * time;
     }
 
     public static int getPosition(int initialPosition, double currentVelocity,
-            double acceleration, long time) {
-        return (int) (initialPosition + currentVelocity * time
+            double acceleration, int time) {
+        return (int) Math.ceil(initialPosition + currentVelocity * time
                 + .5 * acceleration * Math.pow(time, 2));
     }
 }
