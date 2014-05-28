@@ -50,6 +50,8 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
         g.drawLine(0, height - 200, width, height - 200);
         g.setColor(Color.CYAN);
         g.fillArc(xPosition, height - 600, 400, 400, 0, 360);
+        g.setColor(Color.WHITE);
+        g.drawLine(xPosition + 200, height - 200, xPosition + 200, height - 400);
     }
 
     @Override
