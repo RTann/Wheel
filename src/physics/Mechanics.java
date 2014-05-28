@@ -52,4 +52,5 @@ public class Mechanics {
         return (int) Math.ceil(initialPosition + currentVelocity * time
                 + .5 * acceleration * Math.pow(time, 2));
     }
+    
 }
